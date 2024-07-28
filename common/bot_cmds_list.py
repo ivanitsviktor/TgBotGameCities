@@ -1,5 +1,5 @@
 from aiogram.types import BotCommand
-from telegram import CallbackQuery
+# from telegram import CallbackQuery
 
 
 private=[

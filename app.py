@@ -2,10 +2,8 @@ import os
 import asyncio
 
 from aiogram import Bot, Dispatcher, types
-from aiogram.filters import CommandStart
 from aiogram.client.bot import DefaultBotProperties
 from aiogram.enums import ParseMode
-from telegram import CallbackQuery
 
 
 
@@ -16,7 +14,7 @@ from handlers.user_private import user_private_router
 from handlers.user_group import user_group_router
 from common.bot_cmds_list import private
 
-ALLOWED_UPDATES=['message','edited_message']
+ALLOWED_UPDATES=['message','edited_message','callback_query']
 
 bot=Bot(token=os.getenv('TOKEN'),default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp=Dispatcher()
@@ -24,14 +22,10 @@ dp=Dispatcher()
 dp.include_router(user_private_router)
 dp.include_router(user_group_router)
 
-# file_bd=open('cities.txt','r',encoding='utf-8')
-# array_of_city = [line.strip() for line in file_bd]
-# file_bd.close()
-
 
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)
-    # await bot.delete_my_commands(scope=types.BotCommandScopeAllPrivateChats)
+    # await bot.delete_my_commands(scope=types.BotCommandScopeAllPrivateChats())
     await bot.set_my_commands(commands=private, scope=types.BotCommandScopeAllPrivateChats())
     await dp.start_polling(bot, allowed_updates=ALLOWED_UPDATES)
     
